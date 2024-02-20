@@ -16,12 +16,12 @@ app.get('/', (req, res) => {
 	<body>
 	<h1>${process.env.APP_TITLE}</h1>
 	<ul>
-		<li>GET all employees - <a href="/employees">/employees</a></li>
+		<li>GET - show all employees - <a href="/employees">/employees</a></li>
+		<li>POST - send mail about employee 3 <a href="/employees/sendmail/3">/employees/sendmail/3</a></li>
 	</ul>
 	</body>
 </html>
-	`)
-
+	`);
 });
 
 app.use('/employees', employeeRouter);

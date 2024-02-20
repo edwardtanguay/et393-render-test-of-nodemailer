@@ -2,4 +2,7 @@
 	
 ### FETCH ALL EMPLOYEES
 GET {{url}}/employees
+
+### SEND MAIL WITH SPECIFIC EMPLOYEE INFO
+POST {{url}}/employees/sendmail/4
 	
