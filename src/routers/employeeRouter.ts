@@ -10,37 +10,44 @@ employeeRouter.get("/", async (_req, res: express.Response) => {
 	res.json(employees);
 });
 
-employeeRouter.get(
+employeeRouter.post(
 	"/sendmail/:id",
 	async (req: express.Request, res: express.Response) => {
 		const { id } = req.params;
-		const employees: any = await employeeHandlers.getAllEmployees();
-		const employee = employees.find((m: any) => (m.id = id));
-		const sendTo = "edwardtanguay@gmail.com";
+		const { pin } = req.body;
 
-		const mailOptions = {
-			from: `Language Community Site <${process.env.GOOGLE_MAIL_ACCOUNT_USER}@gmail.com>`,
-			to: sendTo,
-			subject: `Information on employee #${employee.id}`,
-			html: `
+		if (pin !== process.env.pin) {
+			res.status(401).send("not authorized");
+		} else {
+			const employees: any = await employeeHandlers.getAllEmployees();
+			const employee = employees.find((m: any) => (m.id = id));
+			const sendTo = "edwardtanguay@gmail.com";
+
+			const mailOptions = {
+				from: `Language Community Site <${process.env.GOOGLE_MAIL_ACCOUNT_USER}@gmail.com>`,
+				to: sendTo,
+				subject: `Information on employee #${employee.id}`,
+				html: `
 Employee #${employee.id}: ${employee.firstName} ${employee.lastName} - ${employee.title}
 `,
-		};
+			};
 
-		const transporter = createTransport({
-			service: "gmail",
-			auth: {
-				user: process.env.GOOGLE_MAIL_ACCOUNT_USER,
-				pass: process.env.GOOGLE_MAIL_NODEMAILER_PASSWORD,
-			},
-		});
+			const transporter = createTransport({
+				service: "gmail",
+				auth: {
+					user: process.env.GOOGLE_MAIL_ACCOUNT_USER,
+					pass: process.env.GOOGLE_MAIL_NODEMAILER_PASSWORD,
+				},
+			});
 
-		transporter.sendMail(mailOptions, (error: any, info: any) => {
-			if (error) {
-				res.send(`ERROR: ${error.message}`);
-			} else {
-				res.send("Email sent: " + info.response);
-			}
-		});
+			res.send(`id=${id}, pin=${pin}`);
+			// transporter.sendMail(mailOptions, (error: any, info: any) => {
+			// 	if (error) {
+			// 		res.send(`ERROR: ${error.message}`);
+			// 	} else {
+			// 		res.send("Email sent: " + info.response);
+			// 	}
+			// });
+		}
 	}
 );
