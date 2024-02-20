@@ -40,14 +40,13 @@ Employee #${employee.id}: ${employee.firstName} ${employee.lastName} - ${employe
 				},
 			});
 
-			res.send(`id=${id}, pin=${pin}`);
-			// transporter.sendMail(mailOptions, (error: any, info: any) => {
-			// 	if (error) {
-			// 		res.send(`ERROR: ${error.message}`);
-			// 	} else {
-			// 		res.send("Email sent: " + info.response);
-			// 	}
-			// });
+			transporter.sendMail(mailOptions, (error: any, info: any) => {
+				if (error) {
+					res.send(`ERROR: ${error.message}`);
+				} else {
+					res.send("Email sent: " + info.response);
+				}
+			});
 		}
 	}
 );
