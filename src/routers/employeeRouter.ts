@@ -16,6 +16,8 @@ employeeRouter.post(
 		const { id } = req.params;
 		const { pin } = req.body;
 
+		console.log('PIN', pin);
+
 		if (pin !== process.env.pin) {
 			res.status(401).send("not authorized");
 		} else {
