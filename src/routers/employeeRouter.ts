@@ -17,9 +17,11 @@ employeeRouter.post(
 		const { pin } = req.body;
 
 		console.log('PIN', pin);
+		console.log('PIN in env', process.env.pin);
 
 		if (pin !== process.env.pin) {
-			res.status(401).send("not authorized");
+			res.status(401).send("not authorized" + ` pin = ${pin}, envpin = ${process.env.pin});
+}`);
 		} else {
 			const employees: any = await employeeHandlers.getAllEmployees();
 			const employee = employees.find((m: any) => (m.id = id));
