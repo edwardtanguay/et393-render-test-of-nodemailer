@@ -17,9 +17,9 @@ employeeRouter.post(
 		const { pin } = req.body;
 
 		console.log('PIN', pin);
-		console.log('PIN in env', process.env.pin);
+		console.log('PIN in env', process.env.PIN);
 
-		if (pin !== process.env.pin) {
+		if (pin !== process.env.PIN) {
 			res.status(401).send("not authorized" + ` pin = ${pin}, envpin = ${process.env.pin});
 }`);
 		} else {
